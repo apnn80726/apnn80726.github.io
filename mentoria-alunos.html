@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentoria Individual MDPJ — Oferta para Alunos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:      #1a3a2a;
+    --green-mid:  #1f4433;
+    --green-lite: #255c42;
+    --gold:       #b8964a;
+    --gold-light: #d4af6e;
+    --gold-pale:  #e8d5a8;
+    --nude:       #f5efe6;
+    --nude-mid:   #ede3d4;
+    --nude-dark:  #d9cbb8;
+    --white:      #ffffff;
+    --text-on-green: #a8c8b4;
+    --text-on-nude:  #5a4a38;
+    --border-green:  rgba(184,150,74,0.2);
+    --border-nude:   rgba(90,74,56,0.15);
+    --red-soft:   rgba(200,70,50,0.1);
+    --red-border: rgba(200,70,50,0.25);
+    --red-text:   #c0614e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    padding: 11px 24px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ── COUNTDOWN ── */
+  .countdown-bar {
+    background: var(--nude-mid);
+    border-bottom: 1px solid var(--border-nude);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .countdown-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-on-nude);
+    opacity: 0.7;
+  }
+
+  .cd-unit { text-align: center; }
+  .cd-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--green);
+    display: block;
+    line-height: 1;
+    min-width: 46px;
+    background: var(--nude);
+    border: 1px solid var(--border-nude);
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+  .cd-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--text-on-nude);
+    text-transform: uppercase;
+    margin-top: 3px;
+    display: block;
+    opacity: 0.6;
+  }
+  .cd-sep {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    color: var(--gold);
+    padding-bottom: 14px;
+  }
+
+  /* ── HERO (verde) ── */
+  .hero {
+    background: var(--green);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 88vh;
+    overflow: hidden;
+  }
+
+  .hero-photo { position: relative; overflow: hidden; }
+  .hero-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    display: block;
+    filter: brightness(0.93);
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 55%, var(--green) 100%),
+                linear-gradient(to bottom, transparent 75%, var(--green) 100%);
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 72px 52px 72px 44px;
+    background: radial-gradient(ellipse 100% 70% at 100% 50%, rgba(184,150,74,0.07) 0%, transparent 70%);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--gold);
+    border-radius: 100px;
+    padding: 7px 20px;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 32px;
+    width: fit-content;
+  }
+  .badge-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 4.5vw, 70px);
+    font-weight: 600;
+    line-height: 0.97;
+    color: var(--white);
+  }
+  .hero h1 em { font-style: italic; color: var(--gold-light); display: block; }
+
+  .hero-sub {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--text-on-green);
+    line-height: 1.7;
+    margin-top: 20px;
+    max-width: 400px;
+  }
+
+  .price-block {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border-green);
+  }
+
+  .price-was-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .price-was-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--text-on-green);
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
+  .price-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-on-green);
+    border: 1px solid rgba(168,200,180,0.2);
+    padding: 2px 8px;
+    border-radius: 100px;
+    opacity: 0.7;
+  }
+
+  .price-now-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .price-main-row {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+  }
+  .p-curr { font-size: 22px; color: var(--gold-light); }
+  .p-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 7vw, 90px);
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .price-note { font-size: 14px; color: var(--text-on-green); margin-top: 8px; }
+
+  .pix-btn-wrap {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-pix {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--green);
+    font-weight: 700;
+    font-size: 16px;
+    padding: 18px 36px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.4px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 28px rgba(184,150,74,0.3);
+    width: 100%;
+  }
+  .btn-pix:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(184,150,74,0.45); }
+
+  .pix-icon { width: 22px; height: 22px; fill: var(--green); }
+
+  .pix-key-display {
+    display: none;
+    border-radius: 4px;
+    padding: 16px 20px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .pix-key-display.on-green {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border-green);
+  }
+  .pix-key-display.on-nude {
+    background: rgba(90,74,56,0.08);
+    border: 1px solid var(--border-nude);
+  }
+  .pix-key-display.visible { display: flex; }
+
+  .pix-key-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .on-green .pix-key-label { color: var(--text-on-green); }
+  .on-nude  .pix-key-label { color: var(--text-on-nude); opacity: 0.7; }
+
+  .pix-key-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 17px;
+    letter-spacing: 1px;
+  }
+  .on-green .pix-key-value { color: var(--gold-light); }
+  .on-nude  .pix-key-value { color: var(--green); font-weight: 600; }
+
+  .btn-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+    border: 1px solid;
+  }
+  .btn-copy.on-green {
+    background: var(--green-lite);
+    border-color: var(--border-green);
+    color: var(--gold-light);
+  }
+  .btn-copy.on-green:hover { background: #2a6b4e; }
+  .btn-copy.on-nude {
+    background: var(--nude-mid);
+    border-color: var(--border-nude);
+    color: var(--green);
+  }
+  .btn-copy.on-nude:hover { background: var(--nude-dark); }
+  .btn-copy.copied { opacity: 0.7; }
+
+  .pix-after-note {
+    font-size: 13px;
+    color: var(--text-on-green);
+    line-height: 1.6;
+  }
+  .pix-after-note a { color: var(--gold-light); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ── ALERTA (nude) ── */
+  .alert-section {
+    background: var(--nude);
+    padding: 80px 24px;
+  }
+
+  .container { max-width: 940px; margin: 0 auto; }
+  .container-sm { max-width: 700px; margin: 0 auto; }
+
+  .section-label-nude {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .section-title-nude {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(34px, 4.5vw, 56px);
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--green);
+    margin-bottom: 28px;
+  }
+  .section-title-nude em { font-style: italic; color: var(--gold); }
+
+  .section-label-green {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .section-title-green {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(34px, 4.5vw, 56px);
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+  .section-title-green em { font-style: italic; color: var(--gold-light); }
+
+  .context-body {
+    font-size: 17px;
+    color: var(--text-on-nude);
+    line-height: 1.8;
+  }
+  .context-body p + p { margin-top: 18px; }
+  .context-body strong { color: var(--green); font-weight: 600; }
+
+  .alert-block {
+    margin-top: 44px;
+    background: var(--red-soft);
+    border: 1px solid var(--red-border);
+    border-left: 3px solid var(--red-text);
+    border-radius: 4px;
+    padding: 24px 28px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .alert-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .alert-text { font-size: 16px; color: #7a3a2a; line-height: 1.7; }
+  .alert-text strong { color: var(--red-text); font-weight: 600; }
+
+  /* ── FASES (verde) ── */
+  .fases-section {
+    background: var(--green-mid);
+    padding: 80px 24px;
+  }
+
+  .fases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border-green);
+    border: 1px solid var(--border-green);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+
+  .fase-card {
+    background: var(--green-mid);
+    padding: 34px 26px;
+    transition: background 0.2s;
+  }
+  .fase-card:hover { background: var(--green); }
+
+  .fase-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .fase-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+  .fase-card p {
+    font-size: 15px;
+    color: var(--text-on-green);
+    line-height: 1.65;
+  }
+  .fase-tag {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+  .fase-tag.warn {
+    color: #e8836e;
+    background: rgba(200,70,50,0.12);
+    border: 1px solid rgba(200,70,50,0.25);
+  }
+  .fase-tag.ok {
+    color: var(--gold);
+    background: rgba(184,150,74,0.1);
+    border: 1px solid rgba(184,150,74,0.25);
+  }
+
+  /* ── OFERTA (nude) ── */
+  .offer-section {
+    background: var(--nude-mid);
+    padding: 90px 24px;
+  }
+
+  .offer-card {
+    max-width: 680px;
+    margin: 48px auto 0;
+    background: var(--nude);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(184,150,74,0.12);
+  }
+
+  .offer-header {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .offer-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .offer-header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--green);
+    opacity: 0.65;
+    text-transform: uppercase;
+  }
+
+  .offer-body { padding: 36px 32px; }
+
+  .offer-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .offer-includes li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 16px;
+    color: var(--text-on-nude);
+    line-height: 1.5;
+  }
+  .check-icon {
+    width: 20px; height: 20px;
+    background: rgba(184,150,74,0.15);
+    border: 1px solid rgba(184,150,74,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .check-icon svg { width: 10px; height: 10px; stroke: var(--gold); fill: none; stroke-width: 2.5; }
+  .offer-includes li strong { color: var(--green); font-weight: 600; }
+
+  .offer-divider { height: 1px; background: var(--border-nude); margin: 28px 0; }
+
+  .offer-pricing { text-align: center; }
+
+  .offer-was-line {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-on-nude);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .offer-was-line s { font-size: 18px; }
+
+  .offer-now-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .offer-price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+  }
+  .offer-p-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 76px;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1;
+  }
+  .offer-p-curr { font-size: 22px; color: var(--green); }
+
+  .offer-note {
+    font-size: 14px;
+    color: var(--text-on-nude);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  .offer-note strong { color: var(--green); }
+
+  .offer-guarantee {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-on-nude);
+  }
+  .offer-guarantee a { color: var(--green); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ── FOOTER (verde) ── */
+  footer {
+    background: var(--green);
+    border-top: 1px solid var(--border-green);
+    padding: 40px 24px;
+    text-align: center;
+  }
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--gold-light);
+    display: block;
+    margin-bottom: 10px;
+  }
+  footer p { font-size: 13px; color: var(--text-on-green); line-height: 1.7; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-photo { height: 65vw; max-height: 420px; }
+    .hero-photo::after {
+      background: linear-gradient(to bottom, transparent 55%, var(--green) 100%);
+    }
+    .hero-content { padding: 40px 24px 60px; }
+    .fases-grid { grid-template-columns: 1fr; }
+    .offer-header { flex-direction: column; }
+    .offer-body { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">⭑ Oferta por tempo limitado · Exclusivo para alunos ativos do MDPJ</div>
+
+<!-- COUNTDOWN (nude) -->
+<div class="countdown-bar">
+  <span class="countdown-label">Encerra em</span>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <div class="cd-unit"><span class="cd-num" id="cd-days">15</span><span class="cd-label">dias</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">horas</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">min</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">seg</span></div>
+  </div>
+  <span class="countdown-label">ou até a página ser retirada do ar</span>
+</div>
+
+<!-- ══ HERO (verde) ══ -->
+<section class="hero">
+  <div class="hero-photo">
+    <img src="foto-ana-paula.jpg" alt="Ana Paula Niquerito">
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge"><div class="badge-dot"></div>Exclusivo · Alunos MDPJ</div>
+    <h1>Mentoria<br>Individual<br><em>com Ana Paula</em></h1>
+    <p class="hero-sub">Orientação personalizada para a sua perícia — na fase certa, antes que o erro aconteça.</p>
+
+    <div class="price-block">
+      <div class="price-was-row">
+        <span class="price-was-num">R$ 497,00</span>
+        <span class="price-tag">valor regular</span>
+      </div>
+      <span class="price-now-lbl">Por apenas</span>
+      <div class="price-main-row">
+        <span class="p-curr">R$</span>
+        <span class="p-big">200</span>
+      </div>
+      <p class="price-note">Sessão individual de 1 hora · Pagamento via Pix</p>
+    </div>
+
+    <div class="pix-btn-wrap">
+      <button class="btn-pix" onclick="showPix('pix-hero')">
+        <svg class="pix-icon" viewBox="0 0 24 24"><path d="M11.354 2.646a.9.9 0 0 1 1.292 0l2.828 2.828a.9.9 0 0 0 1.272 0l1.415-1.414a.9.9 0 0 1 1.272 0l1.414 1.414a.9.9 0 0 1 0 1.272l-1.414 1.415a.9.9 0 0 0 0 1.272l2.828 2.828a.9.9 0 0 1 0 1.293l-2.828 2.828a.9.9 0 0 0 0 1.272l1.414 1.415a.9.9 0 0 1 0 1.272l-1.414 1.414a.9.9 0 0 1-1.272 0l-1.415-1.414a.9.9 0 0 0-1.272 0l-2.828 2.828a.9.9 0 0 1-1.292 0l-2.828-2.828a.9.9 0 0 0-1.272 0L5.84 22.56a.9.9 0 0 1-1.273 0L3.154 21.146a.9.9 0 0 1 0-1.272l1.414-1.415a.9.9 0 0 0 0-1.272l-2.828-2.828a.9.9 0 0 1 0-1.293l2.828-2.828a.9.9 0 0 0 0-1.272L3.154 7.572a.9.9 0 0 1 0-1.272L4.567 4.886a.9.9 0 0 1 1.273 0l1.414 1.414a.9.9 0 0 0 1.272 0z"/></svg>
+        Pagar R$200 via Pix
+      </button>
+      <div class="pix-key-display on-green" id="pix-hero">
+        <div>
+          <span class="pix-key-label">Chave Pix (CPF)</span>
+          <span class="pix-key-value">184.059.508-69</span>
+        </div>
+        <button class="btn-copy on-green" onclick="copyPix(this)">Copiar chave</button>
+      </div>
+      <p class="pix-after-note">Após o pagamento, <a href="https://wa.me/5515991287242?text=Ol%C3%A1%2C+Ana+Paula%21+Acabei+de+realizar+o+pagamento+via+Pix+da+Mentoria+Individual+e+gostaria+de+agendar+minha+sess%C3%A3o." target="_blank">envie o comprovante via WhatsApp</a> para agendar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MOTIVO (nude) ══ -->
+<section class="alert-section">
+  <div class="container-sm">
+    <span class="section-label-nude">Por que esta decisão</span>
+    <h2 class="section-title-nude">A mentoria nasceu para ser usada —<br><em>não guardada.</em></h2>
+
+    <div class="context-body">
+      <p>A Mentoria Individual foi criada para ser usada <strong>em qualquer fase da perícia</strong> — não apenas no laudo. Mas observamos que a maioria dos alunos guarda a mentoria bônus para o momento da elaboração do laudo pericial.</p>
+      <p>O problema é que <strong>os erros mais custosos acontecem antes disso.</strong> Na proposta de honorários, uma falha pode comprometer sua remuneração em todo o caso. Na condução da perícia direta, um deslize pode comprometer a própria validade do laudo.</p>
+      <p>Esses erros, por muitas vezes, <strong>são irreparáveis.</strong></p>
+      <p>Por isso, durante este período de teste, estamos facilitando o acesso a novas mentorias: sessões adicionais de 1 hora por <strong>R$200</strong> em vez de R$497. Válido pelos <strong>próximos 15 dias ou até que esta página seja retirada do ar.</strong></p>
+    </div>
+
+    <div class="alert-block">
+      <div class="alert-icon">⚠</div>
+      <div class="alert-text">
+        <strong>Não espere o laudo para pedir ajuda.</strong> Se você recebeu uma nomeação, está elaborando a proposta de honorários ou prestes a realizar a perícia direta — <strong>este é o momento certo.</strong> Erros nessas fases podem ser impossíveis de corrigir depois.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FASES (verde) ══ -->
+<section class="fases-section">
+  <div class="container">
+    <span class="section-label-green">Quando usar a mentoria</span>
+    <h2 class="section-title-green">A perícia tem três fases.<br><em>Todas exigem atenção.</em></h2>
+    <div class="fases-grid">
+      <div class="fase-card">
+        <div class="fase-num">Fase 01 —</div>
+        <h3>Proposta de Honorários</h3>
+        <p>Como você fundamenta e apresenta sua proposta ao juízo define não só o quanto vai receber — mas sua credibilidade perante o tribunal desde o início.</p>
+        <span class="fase-tag warn">⚠ Erro comum e custoso</span>
+      </div>
+      <div class="fase-card">
+        <div class="fase-num">Fase 02 —</div>
+        <h3>Perícia Direta</h3>
+        <p>A condução do exame pericial — contato com o periciando, coleta de dados, relação com as partes. Falhas aqui podem comprometer juridicamente tudo que vier depois.</p>
+        <span class="fase-tag warn">⚠ Erros nem sempre reversíveis</span>
+      </div>
+      <div class="fase-card">
+        <div class="fase-num">Fase 03 —</div>
+        <h3>Elaboração do Laudo</h3>
+        <p>Estrutura, linguagem técnica, nexo causal, respostas aos quesitos — a fase em que a maioria dos alunos usa a mentoria bônus. Importante, mas não é a única.</p>
+        <span class="fase-tag ok">✓ Fase mais lembrada</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ OFERTA (nude) ══ -->
+<section class="offer-section" id="contratar">
+  <div class="container">
+    <div style="text-align:center;">
+      <span class="section-label-nude" style="display:block;">Condição especial por tempo limitado</span>
+      <h2 class="section-title-nude">Garante a sua<br><em>antes que encerre.</em></h2>
+    </div>
+
+    <div class="offer-card">
+      <div class="offer-header">
+        <h3>Mentoria Individual · 1 hora</h3>
+        <span class="offer-header-tag">Alunos MDPJ · Oferta teste</span>
+      </div>
+      <div class="offer-body">
+        <ul class="offer-includes">
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+            <span><strong>1 hora individual</strong> com Ana Paula — sem divisão de tempo com outros alunos</span>
+          </li>
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+            <span>Use em <strong>qualquer fase:</strong> honorários, perícia direta ou laudo pericial</span>
+          </li>
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+            <span>Orientação personalizada para <strong>o seu caso específico</strong></span>
+          </li>
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+            <span>Agendamento via WhatsApp após confirmação do pagamento</span>
+          </li>
+          <li>
+            <div class="check-icon"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+            <span>Pode ser adquirida <strong>mais de uma vez</strong> durante o período da oferta</span>
+          </li>
+        </ul>
+
+        <div class="offer-divider"></div>
+
+        <div class="offer-pricing">
+          <div class="offer-was-line">Valor regular: <s>R$ 497,00</s></div>
+          <span class="offer-now-lbl">Condição especial de teste</span>
+          <div class="offer-price-row">
+            <span class="offer-p-curr">R$</span>
+            <span class="offer-p-big">200</span>
+          </div>
+          <p class="offer-note">Pagamento via Pix · <strong>Válido pelos próximos 15 dias ou até retirada da página</strong></p>
+        </div>
+
+        <div style="margin-top:28px;">
+          <button class="btn-pix" onclick="showPix('pix-card')">
+            <svg class="pix-icon" viewBox="0 0 24 24"><path d="M11.354 2.646a.9.9 0 0 1 1.292 0l2.828 2.828a.9.9 0 0 0 1.272 0l1.415-1.414a.9.9 0 0 1 1.272 0l1.414 1.414a.9.9 0 0 1 0 1.272l-1.414 1.415a.9.9 0 0 0 0 1.272l2.828 2.828a.9.9 0 0 1 0 1.293l-2.828 2.828a.9.9 0 0 0 0 1.272l1.414 1.415a.9.9 0 0 1 0 1.272l-1.414 1.414a.9.9 0 0 1-1.272 0l-1.415-1.414a.9.9 0 0 0-1.272 0l-2.828 2.828a.9.9 0 0 1-1.292 0l-2.828-2.828a.9.9 0 0 0-1.272 0L5.84 22.56a.9.9 0 0 1-1.273 0L3.154 21.146a.9.9 0 0 1 0-1.272l1.414-1.415a.9.9 0 0 0 0-1.272l-2.828-2.828a.9.9 0 0 1 0-1.293l2.828-2.828a.9.9 0 0 0 0-1.272L3.154 7.572a.9.9 0 0 1 0-1.272L4.567 4.886a.9.9 0 0 1 1.273 0l1.414 1.414a.9.9 0 0 0 1.272 0z"/></svg>
+            Pagar R$200 via Pix
+          </button>
+          <div class="pix-key-display on-nude" id="pix-card" style="margin-top:12px;">
+            <div>
+              <span class="pix-key-label">Chave Pix (CPF)</span>
+              <span class="pix-key-value">184.059.508-69</span>
+            </div>
+            <button class="btn-copy on-nude" onclick="copyPix(this)">Copiar chave</button>
+          </div>
+        </div>
+        <p class="offer-guarantee" style="margin-top:14px;">Após o Pix, <a href="https://wa.me/5515991287242?text=Ol%C3%A1%2C+Ana+Paula%21+Acabei+de+realizar+o+pagamento+via+Pix+da+Mentoria+Individual+e+gostaria+de+agendar+minha+sess%C3%A3o." target="_blank">envie o comprovante via WhatsApp</a> para agendar sua sessão.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (verde) -->
+<footer>
+  <span class="footer-brand">MDPJ — Método Dentista Perito Judicial</span>
+  <p>
+    Ana Paula Niquerito Nunes · CROSP 80726<br>
+    Especialista em Odontologia Legal – Unicamp · Perita Judicial TJSP<br><br>
+    Oferta exclusiva para alunos com acesso ativo ao MDPJ.<br>
+    Válida pelos próximos 15 dias ou até retirada desta página.
+  </p>
+</footer>
+
+<script>
+  function showPix(id) {
+    document.getElementById(id).classList.add('visible');
+  }
+  function copyPix(btn) {
+    const chave = '18405950869';
+    navigator.clipboard.writeText(chave).then(() => {
+      btn.textContent = '✓ Copiado!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copiar chave'; btn.classList.remove('copied'); }, 2500);
+    }).catch(() => {
+      const el = document.createElement('textarea');
+      el.value = chave; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+      btn.textContent = '✓ Copiado!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copiar chave'; btn.classList.remove('copied'); }, 2500);
+    });
+  }
+  (function() {
+    const KEY = 'mdpj_mentoria_deadline';
+    let deadline = localStorage.getItem(KEY);
+    if (!deadline) {
+      const d = new Date(); d.setDate(d.getDate() + 15);
+      deadline = d.getTime(); localStorage.setItem(KEY, deadline);
+    } else { deadline = parseInt(deadline); }
+    function update() {
+      const diff = deadline - Date.now();
+      if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent = '00'); return; }
+      document.getElementById('cd-days').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
+      document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+      document.getElementById('cd-mins').textContent  = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+      document.getElementById('cd-secs').textContent  = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+    }
+    update(); setInterval(update, 1000);
+  })();
+</script>
+</body>
+</html>
