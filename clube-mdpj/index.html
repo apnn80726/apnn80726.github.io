@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clube MDPJ — O Plano Prático</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --moss-deep:   #333d29;
+    --moss-mid:    #5c6b47;
+    --moss-soft:   #7d8a63;
+    --nude-light:  #f2e9dc;
+    --nude-mid:    #e4d3bd;
+    --nude-tan:    #c9a877;
+    --cream:       #faf6ef;
+    --ink:         #262319;
+    --line: rgba(38,35,25,0.12);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img,svg{display:block; max-width:100%;}
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+
+  a{color:inherit;}
+
+  .eyebrow{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    font-size:12.5px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(120% 140% at 85% -10%, rgba(201,168,119,0.35), transparent 55%),
+      linear-gradient(180deg, var(--moss-deep) 0%, #2b331f 100%);
+    color:var(--nude-light);
+    padding:64px 0 96px;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .hero::after{
+    content:"";
+    position:absolute;
+    right:-120px; top:-120px;
+    width:420px; height:420px;
+    border-radius:50%;
+    border:1px solid rgba(242,233,220,0.15);
+  }
+
+  .brand-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:56px;
+  }
+
+  .brand-mark{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+
+  .brand-mark .m1{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:22px;
+    letter-spacing:0.01em;
+  }
+  .brand-mark .m2{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--nude-tan);
+  }
+
+  .status-pill{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    border:1px solid rgba(242,233,220,0.35);
+    padding:7px 14px;
+    border-radius:100px;
+    color:var(--nude-light);
+  }
+
+  .hero-eyebrow{color:var(--nude-tan); margin-bottom:18px;}
+
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:clamp(38px, 6vw, 62px);
+    line-height:1.03;
+    letter-spacing:-0.01em;
+    max-width:11ch;
+  }
+
+  .hero h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--nude-tan);
+  }
+
+  .hero-sub{
+    margin-top:24px;
+    max-width:46ch;
+    font-size:17px;
+    color:rgba(242,233,220,0.82);
+  }
+
+  .hero-cta-row{
+    margin-top:40px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    padding:16px 28px;
+    border-radius:8px;
+    text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+
+  .btn-primary{
+    background:var(--nude-tan);
+    color:var(--moss-deep);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(201,168,119,0.35);}
+
+  .hero-note{
+    font-size:13px;
+    color:rgba(242,233,220,0.6);
+  }
+
+  /* ---------- ELIGIBILITY STRIP ---------- */
+  .eligibility{
+    background:var(--nude-tan);
+    color:var(--moss-deep);
+    padding:16px 0;
+  }
+  .eligibility .wrap{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:14px;
+    font-weight:600;
+  }
+  .eligibility .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--moss-deep);
+    flex:none;
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:88px 0;}
+  .section-head{max-width:52ch; margin-bottom:48px;}
+  .section-eyebrow{color:var(--moss-mid);}
+  .section-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(28px, 4vw, 38px);
+    margin-top:14px;
+    color:var(--moss-deep);
+    letter-spacing:-0.01em;
+  }
+  .section-sub{
+    margin-top:16px;
+    font-size:16px;
+    color:rgba(38,35,25,0.68);
+  }
+
+  /* ---------- INCLUDED CARDS ---------- */
+  .included-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  @media(max-width:720px){ .included-grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--nude-light);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:36px 32px;
+  }
+
+  .card .tag{
+    display:inline-block;
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--cream);
+    background:var(--moss-mid);
+    padding:5px 11px;
+    border-radius:5px;
+    margin-bottom:20px;
+  }
+
+  .card h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:23px;
+    color:var(--moss-deep);
+    margin-bottom:12px;
+  }
+
+  .card p{
+    font-size:15px;
+    color:rgba(38,35,25,0.72);
+  }
+
+  .not-included{
+    margin-top:28px;
+    border-top:1px dashed var(--line);
+    padding-top:24px;
+    font-size:14.5px;
+    color:rgba(38,35,25,0.6);
+  }
+  .not-included strong{color:var(--moss-deep);}
+
+  /* ---------- MEMBERSHIP CARD (signature element) ---------- */
+  .membership-section{
+    background:linear-gradient(180deg, var(--nude-mid), var(--nude-light));
+  }
+
+  .membership-layout{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:56px;
+    align-items:center;
+  }
+  @media(max-width:780px){ .membership-layout{grid-template-columns:1fr;} }
+
+  .member-card{
+    background:linear-gradient(135deg, var(--moss-deep) 0%, #232a19 100%);
+    border-radius:20px;
+    padding:32px;
+    color:var(--nude-light);
+    position:relative;
+    box-shadow:0 30px 60px -20px rgba(51,61,41,0.45);
+    aspect-ratio:1.55/1;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+
+  .member-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:20px;
+    border:1px solid rgba(242,233,220,0.18);
+    background:radial-gradient(120% 90% at 100% 0%, rgba(201,168,119,0.25), transparent 60%);
+  }
+
+  .member-card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    position:relative;
+  }
+
+  .member-card-top .mc-brand{
+    font-family:'Fraunces', serif;
+    font-weight:800;
+    font-size:19px;
+  }
+  .member-card-top .mc-status{
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--nude-tan);
+    border:1px solid rgba(201,168,119,0.5);
+    padding:4px 9px;
+    border-radius:100px;
+  }
+
+  .mc-plan{
+    position:relative;
+    font-size:13px;
+    color:rgba(242,233,220,0.65);
+  }
+  .mc-plan strong{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    font-weight:600;
+    color:var(--nude-light);
+    margin-top:4px;
+  }
+
+  .membership-copy .section-title{margin-top:14px;}
+  .membership-copy ul{
+    margin-top:24px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .membership-copy li{
+    display:flex;
+    gap:12px;
+    font-size:15px;
+    color:rgba(38,35,25,0.75);
+  }
+  .membership-copy li::before{
+    content:"";
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--nude-tan);
+    margin-top:8px;
+    flex:none;
+  }
+
+  /* ---------- PRICING ---------- */
+  .pricing{
+    background:var(--moss-deep);
+    color:var(--nude-light);
+  }
+  .price-box{
+    max-width:460px;
+    margin:0 auto;
+    background:rgba(242,233,220,0.06);
+    border:1px solid rgba(242,233,220,0.18);
+    border-radius:18px;
+    padding:44px 40px;
+    text-align:center;
+  }
+  .price-box .eyebrow{color:var(--nude-tan);}
+  .price-value{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:56px;
+    margin:18px 0 4px;
+  }
+  .price-value span{
+    font-size:17px;
+    font-weight:500;
+    font-family:'Work Sans', sans-serif;
+    color:rgba(242,233,220,0.65);
+  }
+  .price-desc{
+    font-size:14.5px;
+    color:rgba(242,233,220,0.7);
+    margin-bottom:28px;
+  }
+  .price-box .btn-primary{width:100%; justify-content:center;}
+
+  .fine-print{
+    margin-top:28px;
+    padding-top:24px;
+    border-top:1px solid rgba(242,233,220,0.15);
+    font-size:13px;
+    color:rgba(242,233,220,0.55);
+    text-align:left;
+    line-height:1.6;
+  }
+  .fine-print strong{color:rgba(242,233,220,0.85);}
+
+  /* ---------- FAQ ---------- */
+  .faq-item{
+    border-top:1px solid var(--line);
+    padding:26px 0;
+  }
+  .faq-item:last-child{border-bottom:1px solid var(--line);}
+  .faq-item h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:18px;
+    color:var(--moss-deep);
+    margin-bottom:8px;
+  }
+  .faq-item p{
+    font-size:15px;
+    color:rgba(38,35,25,0.68);
+    max-width:60ch;
+  }
+
+  /* ---------- FOOTER CTA ---------- */
+  .final-cta{
+    background:var(--nude-tan);
+    text-align:center;
+  }
+  .final-cta h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(26px,4vw,36px);
+    color:var(--moss-deep);
+    max-width:16ch;
+    margin:0 auto 18px;
+  }
+  .final-cta p{
+    color:rgba(51,61,41,0.75);
+    max-width:44ch;
+    margin:0 auto 32px;
+  }
+  .final-cta .btn-primary{
+    background:var(--moss-deep);
+    color:var(--nude-light);
+  }
+  .final-cta .btn-primary:hover{box-shadow:0 10px 24px rgba(51,61,41,0.35);}
+
+  footer{
+    padding:32px 0 48px;
+    text-align:center;
+    font-size:12.5px;
+    color:rgba(38,35,25,0.45);
+  }
+
+  /* reveal on scroll */
+  .reveal{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.is-visible{opacity:1; transform:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  :focus-visible{
+    outline:2px solid var(--nude-tan);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="brand-row">
+      <div class="brand-mark">
+        <span class="m1">Clube</span>
+        <span class="m2">MDPJ</span>
+      </div>
+      <span class="status-pill">Exclusivo ex-alunos</span>
+    </div>
+
+    <p class="eyebrow hero-eyebrow">O Plano Prático</p>
+    <h1>Seu acesso venceu.<br><em>Sua vaga na turma, não.</em></h1>
+    <p class="hero-sub">Reative sua participação no grupo de alunos do MDPJ e volte a tirar dúvidas ao vivo nos plantões — sem precisar refazer o curso do zero.</p>
+
+    <div class="hero-cta-row">
+      <a href="#assinar" class="btn btn-primary">Reativar meu acesso</a>
+      <span class="hero-note">R$ 40/mês · cancele quando quiser</span>
+    </div>
+  </div>
+</header>
+
+<div class="eligibility">
+  <div class="wrap">
+    <span class="dot"></span>
+    Este plano é exclusivo para quem já foi aluno do MDPJ e está com o acesso à plataforma vencido.
+  </div>
+</div>
+
+<!-- O QUE ESTÁ INCLUSO -->
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow section-eyebrow">O que está incluso</p>
+      <h2 class="section-title">Comunidade e suporte ao vivo, sem o curso completo</h2>
+      <p class="section-sub">O Clube MDPJ não reabre o conteúdo do curso — ele mantém você conectada à turma e com suporte direto para continuar aplicando o que já aprendeu.</p>
+    </div>
+
+    <div class="included-grid reveal">
+      <div class="card">
+        <span class="tag">Comunidade</span>
+        <h3>Grupo de alunos</h3>
+        <p>Acesso ao grupo exclusivo de ex-alunas do MDPJ, para trocar experiências, tirar dúvidas com outras peritas e acompanhar as novidades da área.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Ao vivo</span>
+        <h3>Plantão de dúvidas</h3>
+        <p>Participação nos plantões de dúvidas ao vivo, direto com a Dra. Ana Paula, para resolver casos reais e situações práticas da sua atuação como perita.</p>
+      </div>
+    </div>
+
+    <div class="not-included reveal">
+      <strong>Não incluso:</strong> acesso às aulas, módulos e materiais do curso MDPJ. Este plano é voltado exclusivamente à comunidade e aos plantões ao vivo.
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP CARD -->
+<section class="membership-section">
+  <div class="wrap">
+    <div class="membership-layout">
+      <div class="member-card reveal">
+        <div class="member-card-top">
+          <span class="mc-brand">Clube MDPJ</span>
+          <span class="mc-status">Ativo</span>
+        </div>
+        <div class="mc-plan">
+          Plano Prático
+          <strong>R$ 40 / mês</strong>
+        </div>
+      </div>
+
+      <div class="membership-copy reveal">
+        <p class="eyebrow section-eyebrow">Como funciona</p>
+        <h2 class="section-title">Uma assinatura simples, mês a mês</h2>
+        <ul>
+          <li>Cobrança mensal recorrente de R$ 40, direto no cartão.</li>
+          <li>Enquanto a assinatura estiver ativa, seu acesso ao grupo e aos plantões continua liberado.</li>
+          <li>Sem fidelidade: você pode cancelar quando quiser, sem multa.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="assinar">
+  <div class="wrap">
+    <div class="price-box reveal">
+      <p class="eyebrow">Plano Prático</p>
+      <p class="price-value">R$ 40<span>/mês</span></p>
+      <p class="price-desc">Grupo de alunos + plantões de dúvidas ao vivo</p>
+      <a href="#" class="btn btn-primary">Reativar meu acesso agora</a>
+
+      <div class="fine-print">
+        <strong>Importante:</strong> o não pagamento da mensalidade interrompe automaticamente o acesso ao grupo de alunos e aos plantões de dúvidas ao vivo. O acesso é restabelecido assim que o pagamento for regularizado.<br><br>
+        Você pode cancelar a assinatura a qualquer momento diretamente na área de compras da plataforma de pagamento, sem necessidade de aviso prévio ou multa.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow section-eyebrow">Perguntas frequentes</p>
+      <h2 class="section-title">Antes de reativar</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="faq-item">
+        <h4>Eu volto a ter acesso ao curso completo?</h4>
+        <p>Não. O Clube MDPJ dá acesso apenas ao grupo de alunos e aos plantões de dúvidas ao vivo — não reabre as aulas e materiais do curso.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Quem pode assinar este plano?</h4>
+        <p>Apenas quem já foi aluno do MDPJ e está com o acesso à plataforma vencido. Este plano não é uma porta de entrada para quem nunca fez o curso.</p>
+      </div>
+      <div class="faq-item">
+        <h4>O que acontece se eu atrasar o pagamento?</h4>
+        <p>O acesso ao grupo e aos plantões é interrompido automaticamente até a regularização do pagamento.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Como eu cancelo?</h4>
+        <p>Direto na área de compras da plataforma de pagamento, sem multa e sem necessidade de aviso prévio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="wrap">
+    <h2 class="reveal">Continue perto da turma que te acompanhou até aqui</h2>
+    <p class="reveal">R$ 40/mês para manter o grupo e os plantões de dúvidas ao vivo.</p>
+    <a href="#assinar" class="btn btn-primary reveal">Reativar meu acesso</a>
+  </div>
+</section>
+
+<footer>
+  MDPJ · Método Dentista Perito Judicial — plano exclusivo para ex-alunos
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
