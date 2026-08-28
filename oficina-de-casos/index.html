@@ -1,1 +1,569 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oficina de Casos — Exclusivo alunos MDPJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --moss-deep:   #333d29;
+    --moss-mid:    #5c6b47;
+    --moss-soft:   #7d8a63;
+    --nude-light:  #f2e9dc;
+    --nude-mid:    #e4d3bd;
+    --nude-tan:    #c9a877;
+    --cream:       #faf6ef;
+    --ink:         #262319;
+    --line: rgba(38,35,25,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block; max-width:100%;}
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+  .eyebrow{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    font-size:12.5px;
+  }
 
+  /* ---------- EXCLUSIVITY BANNER ---------- */
+  .excl-banner{
+    background:var(--moss-deep);
+    color:var(--nude-light);
+    text-align:center;
+    padding:12px 20px;
+    font-size:13.5px;
+    font-weight:600;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(120% 140% at 85% -10%, rgba(201,168,119,0.35), transparent 55%),
+      linear-gradient(180deg, var(--moss-deep) 0%, #2b331f 100%);
+    color:var(--nude-light);
+    padding:72px 0 90px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    right:-120px; top:-120px;
+    width:420px; height:420px;
+    border-radius:50%;
+    border:1px solid rgba(242,233,220,0.15);
+  }
+  .hero-eyebrow{color:var(--nude-tan); margin-bottom:18px;}
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:clamp(34px, 5.2vw, 54px);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    max-width:16ch;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--nude-tan);
+  }
+  .hero-sub{
+    margin-top:22px;
+    max-width:50ch;
+    font-size:17px;
+    color:rgba(242,233,220,0.82);
+  }
+  .hero-note{
+    margin-top:32px;
+    font-size:13.5px;
+    color:rgba(242,233,220,0.6);
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:76px 0;}
+  .sec-head{max-width:56ch; margin-bottom:40px;}
+  .sec-eyebrow{color:var(--moss-mid);}
+  .sec-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(26px, 3.6vw, 36px);
+    margin-top:14px;
+    color:var(--moss-deep);
+    letter-spacing:-0.01em;
+  }
+  .sec-sub{
+    margin-top:16px;
+    font-size:16px;
+    color:rgba(38,35,25,0.7);
+  }
+
+  /* ---------- DOR ---------- */
+  .dor{background:var(--nude-light);}
+  .dor-line{
+    font-family:'Fraunces', serif;
+    font-size:clamp(22px, 3vw, 30px);
+    font-weight:500;
+    line-height:1.4;
+    color:var(--moss-deep);
+    max-width:34ch;
+  }
+  .dor-line em{font-style:italic; color:var(--moss-mid);}
+
+  /* ---------- VIRADA ---------- */
+  .virada{
+    background:var(--moss-deep);
+    color:var(--nude-light);
+    text-align:left;
+  }
+  .virada .sec-eyebrow{color:var(--nude-tan);}
+  .virada-line{
+    font-family:'Fraunces', serif;
+    font-size:clamp(24px, 3.4vw, 34px);
+    font-weight:500;
+    line-height:1.35;
+    max-width:22ch;
+    margin-top:16px;
+  }
+  .virada-line em{font-style:italic; color:var(--nude-tan);}
+
+  /* ---------- BENEFÍCIOS ---------- */
+  .beneficios-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media(max-width:720px){ .beneficios-grid{grid-template-columns:1fr;} }
+  .b-card{
+    background:var(--nude-light);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:30px 28px;
+  }
+  .b-card .tag{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    color:var(--cream);
+    background:var(--moss-mid);
+    padding:5px 11px;
+    border-radius:5px;
+    margin-bottom:16px;
+  }
+  .b-card h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:19px;
+    color:var(--moss-deep);
+    margin-bottom:12px;
+  }
+  .b-card ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .b-card li{
+    font-size:14.5px;
+    color:rgba(38,35,25,0.75);
+    padding-left:16px;
+    position:relative;
+  }
+  .b-card li::before{
+    content:"";
+    position:absolute;
+    left:0; top:8px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--nude-tan);
+  }
+
+  /* ---------- AUTHOR ---------- */
+  .author-section{background:linear-gradient(180deg, var(--nude-mid), var(--nude-light));}
+  .author{
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:44px;
+    align-items:center;
+  }
+  @media(max-width:720px){ .author{grid-template-columns:1fr;} }
+  .plate{
+    background:var(--moss-deep);
+    color:var(--nude-light);
+    border-radius:16px;
+    padding:28px 26px;
+    font-size:13.5px;
+    line-height:1.9;
+  }
+  .plate b{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+
+  /* ---------- PARA QUEM / NÃO É ---------- */
+  .qualif-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  @media(max-width:720px){ .qualif-grid{grid-template-columns:1fr;} }
+  .qcol{
+    padding:28px 26px;
+    border-radius:14px;
+  }
+  .qcol.yes{background:var(--nude-light); border:1px solid var(--line);}
+  .qcol.no{background:transparent; border:1px dashed var(--line);}
+  .qtag{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    padding:5px 11px;
+    border-radius:5px;
+    display:inline-block;
+    margin-bottom:16px;
+  }
+  .qtag.yes{background:var(--moss-mid); color:var(--cream);}
+  .qtag.no{background:transparent; color:rgba(38,35,25,0.5); border:1px solid var(--line);}
+  .qcol ul{list-style:none; display:flex; flex-direction:column; gap:12px;}
+  .qcol li{
+    font-size:14.5px;
+    color:rgba(38,35,25,0.75);
+    padding-left:16px;
+    position:relative;
+  }
+  .qcol li::before{
+    content:"";
+    position:absolute; left:0; top:8px;
+    width:5px; height:5px; border-radius:50%;
+    background:var(--nude-tan);
+  }
+  .qcol li strong{color:var(--moss-deep);}
+
+  /* ---------- LÓGICA / FECHO ---------- */
+  .logic{background:var(--nude-tan);}
+  .logic-line{
+    font-family:'Fraunces', serif;
+    font-size:clamp(24px, 3.6vw, 34px);
+    font-weight:600;
+    line-height:1.3;
+    color:var(--moss-deep);
+    max-width:26ch;
+  }
+
+  /* ---------- PRICING ---------- */
+  .pricing{background:var(--moss-deep); color:var(--nude-light);}
+  .price-box{
+    max-width:480px;
+    margin:0 auto;
+    background:rgba(242,233,220,0.06);
+    border:1px solid rgba(242,233,220,0.18);
+    border-radius:18px;
+    padding:44px 40px;
+    text-align:center;
+  }
+  .price-box .eyebrow{color:var(--nude-tan);}
+  .price-value{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:52px;
+    margin:18px 0 6px;
+  }
+  .price-installments{
+    font-size:16px;
+    color:rgba(242,233,220,0.8);
+    margin-bottom:6px;
+  }
+  .price-desc{
+    font-size:14px;
+    color:rgba(242,233,220,0.6);
+    margin-bottom:30px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:15.5px;
+    padding:17px 28px;
+    border-radius:8px;
+    text-decoration:none;
+    width:100%;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{
+    background:var(--nude-tan);
+    color:var(--moss-deep);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(201,168,119,0.35);}
+  .fine-print{
+    margin-top:26px;
+    padding-top:22px;
+    border-top:1px solid rgba(242,233,220,0.15);
+    font-size:12.5px;
+    color:rgba(242,233,220,0.55);
+    line-height:1.6;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-item{border-top:1px solid var(--line); padding:24px 0;}
+  .faq-item:last-child{border-bottom:1px solid var(--line);}
+  .faq-item h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:17px;
+    color:var(--moss-deep);
+    margin-bottom:8px;
+  }
+  .faq-item p{
+    font-size:14.5px;
+    color:rgba(38,35,25,0.68);
+    max-width:60ch;
+  }
+
+  footer{
+    padding:32px 0 44px;
+    text-align:center;
+    font-size:12px;
+    color:rgba(38,35,25,0.45);
+  }
+
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.is-visible{opacity:1; transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+    html{scroll-behavior:auto;}
+  }
+  :focus-visible{outline:2px solid var(--nude-tan); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<div class="excl-banner">Exclusivo para alunos do MDPJ — Método Dentista Perito Judicial</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow hero-eyebrow">Oficina de Casos</p>
+    <h1>Você não espera uma nomeação para começar a praticar.</h1>
+    <p class="hero-sub">Na Oficina de Casos, você treina antes de precisar fazer sozinho — para que a primeira nomeação real não seja também o primeiro contato com a elaboração prática de uma perícia.</p>
+    <p class="hero-note">Exclusivo para quem já é aluno MDPJ · 12 meses de acesso</p>
+  </div>
+</header>
+
+<!-- DOR -->
+<section class="dor">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow sec-eyebrow">O que trava na prática</p>
+      <p class="dor-line" style="margin-top:16px">A insegurança não é sobre saber a teoria — <em>isso o MDPJ já deu.</em><br>É sobre nunca ter praticado.</p>
+      <p class="sec-sub" style="max-width:52ch">Modelo pronto resolve até aparecer a situação diferente. Sem repertório, você trava exatamente na hora que mais precisa decidir sozinho — na frente de um processo real, com prazo correndo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIRADA -->
+<section class="virada">
+  <div class="wrap reveal">
+    <p class="eyebrow">A virada</p>
+    <p class="virada-line">Você treina com processos judiciais reais <em>antes</em> de precisar fazer sozinho.</p>
+  </div>
+</section>
+
+<!-- BENEFÍCIOS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow sec-eyebrow">O que você desenvolve</p>
+      <h2 class="sec-title">Repertório prático, não mais um curso de teoria</h2>
+    </div>
+
+    <div class="beneficios-grid reveal">
+      <div class="b-card">
+        <span class="tag">Prática técnica real</span>
+        <h3>Aproxime-se da perícia de verdade</h3>
+        <ul>
+          <li>Praticar com processos judiciais reais, aproximando o aprendizado da realidade da perícia odontológica</li>
+          <li>Aprender a analisar um processo com olhar pericial, identificando o que realmente importa para o trabalho do perito</li>
+          <li>Entender como transformar informações clínicas em análise técnico-pericial, sem confundir raciocínio clínico com raciocínio pericial</li>
+        </ul>
+      </div>
+
+      <div class="b-card">
+        <span class="tag">Elaboração de documentos</span>
+        <h3>Da petição ao laudo, com correção</h3>
+        <ul>
+          <li>Treinar a elaboração de petições periciais, entendendo o que escrever e como fundamentar cada manifestação</li>
+          <li>Praticar a construção de laudos periciais, desenvolvendo raciocínio, organização e clareza na redação</li>
+          <li>Receber correção e orientação durante a elaboração dos documentos, percebendo pontos que passariam despercebidos estudando sozinho</li>
+        </ul>
+      </div>
+
+      <div class="b-card">
+        <span class="tag">Situações reais</span>
+        <h3>O que aparece numa perícia de verdade</h3>
+        <ul>
+          <li>Treinar situações como honorários, prazos, quesitos, documentação insuficiente, necessidade de esclarecimentos e outras intercorrências</li>
+          <li>Ganhar mais segurança para conduzir uma nomeação, especialmente quando chegar um processo diferente daqueles já estudados</li>
+        </ul>
+      </div>
+
+      <div class="b-card">
+        <span class="tag">Raciocínio e autonomia</span>
+        <h3>Decidir, não só seguir modelo</h3>
+        <ul>
+          <li>Desenvolver raciocínio pericial, deixando de apenas seguir modelos prontos e aprendendo a decidir diante de situações diferentes</li>
+          <li>Aprender com as dúvidas e decisões de outros participantes, ampliando o contato com diferentes formas de interpretar uma mesma situação</li>
+          <li>Participar de encontros ao vivo, com discussão dos casos e construção dos documentos</li>
+          <li>Criar repertório prático, acumulando experiência por meio da análise de diferentes processos e situações</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="author-section">
+  <div class="wrap">
+    <div class="author reveal">
+      <div class="plate">
+        <b>Ana Paula N. Nunes</b>
+        CRO-SP 80.726<br>
+        Perita Judicial · TJSP<br>
+        desde 2018<br>
+        Esp. Odontologia Legal<br>
+        Unicamp<br>
+        Criadora do MDPJ
+      </div>
+      <div>
+        <p class="eyebrow sec-eyebrow">Quem conduz</p>
+        <h2 class="sec-title" style="margin-top:12px">Correção de quem senta na cadeira de perito.</h2>
+        <p class="sec-sub">Os processos da Oficina não são hipóteses de manual: são casos reais em que fui nomeada e atuei, trazidos de forma anonimizada para que você treine sobre a mesma matéria com que um juízo trabalha.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM É / NÃO É -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow sec-eyebrow">Antes de entrar</p>
+      <h2 class="sec-title">Para quem é a Oficina de Casos</h2>
+    </div>
+
+    <div class="qualif-grid reveal">
+      <div class="qcol yes">
+        <span class="qtag yes">Faz sentido para</span>
+        <ul>
+          <li><strong>Alunos do MDPJ</strong> que já têm a base teórica e querem treinar a prática antes da primeira nomeação real</li>
+          <li>Quem prefere errar no treino, sobre caso anonimizado, a errar na primeira nomeação real</li>
+          <li>Quem quer um segundo par de olhos técnico antes de protocolar</li>
+        </ul>
+      </div>
+      <div class="qcol no">
+        <span class="qtag no">Não é para</span>
+        <ul>
+          <li>Quem ainda não fez o MDPJ — a Oficina é a continuação prática do método, não a porta de entrada</li>
+          <li>Quem procura atuação criminal, IML ou identificação de vítimas — o foco aqui é exclusivamente cível</li>
+          <li>Quem busca promessa de renda garantida em vez de competência técnica</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LÓGICA -->
+<section class="logic">
+  <div class="wrap reveal">
+    <p class="logic-line">Para que a primeira nomeação não seja também o primeiro contato com a elaboração prática de uma perícia.</p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="wrap">
+    <div class="price-box reveal">
+      <p class="eyebrow">Oficina de Casos</p>
+      <p class="price-value">R$ 2.497</p>
+      <p class="price-installments">ou em até 12x de R$ 249,70 no cartão</p>
+      <p class="price-desc">Acesso por 12 meses</p>
+
+      <a href="https://pay.voompcreators.com.br/2236/offer/H82aXt" class="btn btn-primary">Entrar na Oficina de Casos</a>
+
+      <div class="fine-print">
+        Oferta exclusiva para alunos do MDPJ. Pagamento seguro via Voomp.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow sec-eyebrow">Antes de decidir</p>
+      <h2 class="sec-title">Perguntas frequentes</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="faq-item">
+        <h4>Preciso já ter feito o MDPJ?</h4>
+        <p>Sim. A Oficina de Casos é exclusiva para quem já é aluno do MDPJ — ela é a continuação prática do método, não uma porta de entrada independente.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Os processos são reais?</h4>
+        <p>Sim. São processos judiciais reais em que a Dra. Ana Paula foi nomeada e atuou, trazidos de forma anonimizada para você treinar sobre a mesma matéria com que um juízo trabalha.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Preciso ter uma nomeação própria para participar?</h4>
+        <p>Não. Você treina sobre os processos anonimizados como se a nomeação fosse sua. O objetivo é construir repertório antes de precisar dele na sua própria atuação.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Como funcionam os encontros ao vivo?</h4>
+        <p>Semanalmente, com discussão dos casos e construção dos documentos junto com a turma e correção direta da Dra. Ana Paula.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  MDPJ · Método Dentista Perito Judicial — Oficina de Casos exclusiva para alunos MDPJ
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
