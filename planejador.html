@@ -1,1 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#161d2b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Planejador MDPJ">
+<title>Planejador de conteúdo — MDPJ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;450;500;600&display=swap');
+:root{
+  --ink:#161d2b; --ink-soft:#3a4356; --muted:#7b8496; --line:#e7e5df; --line-2:#efeee9;
+  --paper:#f7f5f0; --panel:#ffffff;
+  --c-stories:#c39a3c; --c-reels:#7256b8; --c-carrossel:#2f8f83; --c-post:#c25a6e;
+  --shadow:0 1px 2px rgba(22,29,43,.05), 0 8px 24px -18px rgba(22,29,43,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--paper);
+  min-height:100vh;-webkit-font-smoothing:antialiased}
+#app{max-width:760px;margin:0 auto;padding:16px 14px calc(60px + env(safe-area-inset-bottom))}
+h1,h2{margin:0;font-family:'Fraunces','Georgia',serif;font-weight:500;letter-spacing:-.01em}
 
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.brand{display:flex;align-items:baseline;gap:9px;min-width:0}
+.brand-mark{font-family:'Fraunces',serif;font-weight:600;font-size:15px;letter-spacing:.02em;
+  color:var(--panel);background:var(--ink);padding:3px 8px;border-radius:5px;flex:none}
+.brand-name{color:var(--ink-soft);font-size:14px;font-weight:450;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.save-pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);flex:none}
+.save-dot{width:7px;height:7px;border-radius:50%;background:#c9c6bd;transition:background .3s}
+.save-pill.saving .save-dot{background:var(--c-stories)}
+.save-pill.saved .save-dot{background:var(--c-carrossel)}
+
+.month-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+.month-title{display:flex;align-items:baseline;gap:10px}
+.month-title h1{font-size:34px;line-height:1}
+.year{font-size:16px;color:var(--muted);font-variant-numeric:tabular-nums}
+.month-nav{display:flex;gap:6px;flex:none}
+.nav-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);height:36px;min-width:36px;
+  padding:0 10px;border-radius:9px;font-size:18px;line-height:1;cursor:pointer;transition:.15s;font-family:inherit}
+.nav-btn.today{font-size:13px;font-weight:500}
+.nav-btn:hover{border-color:var(--ink)}
+
+.month-stats{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin-bottom:16px;padding:11px 14px;background:var(--panel);border:1px solid var(--line);border-radius:11px}
+.stat{font-size:13px;color:var(--ink-soft)} .stat strong{font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums}
+.legenda-tipos{display:flex;gap:12px;flex-wrap:wrap}
+.legenda-tipo{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted)}
+.legenda-tipo .dot{width:8px;height:8px;border-radius:50%}
+
+.weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
+.weekdays span{text-align:center;font-size:11px;color:var(--muted);font-weight:500;padding:2px 0}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cell{aspect-ratio:1/1.15;border:1px solid var(--line);background:var(--panel);border-radius:10px;
+  padding:7px 5px 6px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;
+  cursor:pointer;transition:.14s;font-family:inherit}
+.cell.empty{border:none;background:transparent;cursor:default}
+.cell:not(.empty):hover{border-color:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow)}
+.cell-num{font-size:14px;color:var(--ink-soft);font-variant-numeric:tabular-nums;align-self:flex-start;padding-left:2px}
+.cell.today{border-color:var(--ink)}
+.cell.today .cell-num{background:var(--ink);color:#fff;border-radius:6px;width:22px;height:22px;
+  display:flex;align-items:center;justify-content:center;font-weight:500;margin:-1px 0 0 -1px}
+.cell.complete{background:linear-gradient(180deg,#fff,#f3f6f2);border-color:#cfe0d3}
+.cell-dots{display:flex;gap:4px}
+.cdot{width:8px;height:8px;border-radius:2.5px;border:1.5px solid #d9d6cd;background:transparent;transition:.15s}
+.cdot.filled{opacity:.55}
+.cdot.filled.ready{opacity:1;box-shadow:0 0 0 1.5px #fff,0 0 0 3px currentColor}
+.hint{font-size:12px;color:var(--muted);text-align:center;margin:18px 0 0;line-height:1.5}
+.io-bar{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.io-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);font-size:12.5px;
+  font-weight:500;padding:8px 14px;border-radius:9px;cursor:pointer;font-family:inherit;transition:.15s}
+.io-btn:hover{border-color:var(--ink);color:var(--ink)}
+
+.day-head{margin-bottom:16px}
+.back{border:none;background:none;color:var(--muted);font-size:13.5px;cursor:pointer;padding:4px 0;font-family:inherit}
+.back:hover{color:var(--ink)}
+.day-title h1{font-size:24px;margin-top:6px;line-height:1.15}
+
+.card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:12px;padding:16px 15px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;gap:9px;margin-bottom:13px;flex-wrap:wrap}
+.card-flag{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none}
+.card-head h2{font-size:19px}
+.card-sub{font-size:11.5px;color:var(--muted);background:var(--line-2);padding:2px 8px;border-radius:20px}
+.card-head .toggle{margin-left:auto}
+
+.toggle{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;
+  color:var(--muted);font-size:12px;font-weight:500;padding:5px 11px;border-radius:20px;cursor:pointer;
+  font-family:inherit;transition:.15s;flex:none}
+.toggle-dot{width:8px;height:8px;border-radius:50%;border:1.5px solid #cbc8bf;transition:.15s}
+.toggle.on{background:#eef6ef;border-color:#bfe0c6;color:#2c6b48}
+.toggle.on .toggle-dot{background:var(--c-carrossel);border-color:var(--c-carrossel)}
+
+.campo{display:block;margin-bottom:11px}
+.campo-label{display:block;font-size:12px;color:var(--ink-soft);font-weight:500;margin-bottom:5px}
+textarea,input[type=date]{width:100%;border:1px solid var(--line);border-radius:9px;background:#fdfcfa;
+  padding:9px 11px;font-family:inherit;font-size:14px;color:var(--ink);resize:vertical;line-height:1.5;
+  transition:.15s;outline:none}
+textarea::placeholder{color:#a9a498}
+textarea:focus,input[type=date]:focus{border-color:var(--accent,#7256b8);background:#fff;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent,#7256b8) 14%,transparent)}
+
+.stories-list,.slides-list{display:flex;flex-direction:column;gap:9px;margin-bottom:11px}
+.vazio{font-size:13px;color:var(--muted);margin:2px 0 4px;font-style:italic}
+.story-item{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:start}
+.story-num{width:26px;height:26px;border-radius:7px;background:var(--line-2);color:var(--ink-soft);
+  display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;margin-top:3px;
+  font-variant-numeric:tabular-nums}
+.story-actions{display:flex;flex-direction:column;gap:3px}
+.story-actions button{width:26px;height:22px;border:1px solid var(--line);background:#fff;border-radius:6px;
+  cursor:pointer;color:var(--ink-soft);font-size:12px;line-height:1;transition:.12s;font-family:inherit}
+.story-actions button:hover:not(:disabled){border-color:var(--ink)}
+.story-actions button:disabled{opacity:.3;cursor:default}
+.story-actions .del{color:var(--c-post)}
+
+.add{border:1px dashed #cfccc2;background:transparent;color:var(--ink-soft);font-size:13px;font-weight:500;
+  padding:8px 12px;border-radius:9px;cursor:pointer;font-family:inherit;transition:.15s;width:100%}
+.add:hover:not(:disabled){border-color:var(--ink);color:var(--ink);background:#fff}
+.add:disabled{opacity:.4;cursor:default}
+
+.card-foot{margin-top:6px}
+.copy{border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-size:12.5px;font-weight:500;
+  padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;transition:.15s}
+.copy:hover{border-color:var(--ink);color:var(--ink)}
+
+.day-tools{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:16px}
+.tool-row{display:flex;gap:8px;align-items:center}
+.tool-row input[type=date]{flex:1}
+.tool-row .add{width:auto;padding:9px 16px;white-space:nowrap}
+.limpar{align-self:flex-start;border:none;background:none;color:var(--c-post);font-size:12.5px;cursor:pointer;
+  font-family:inherit;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+
+@media (max-width:520px){
+  .month-title h1{font-size:28px}
+  .cell{aspect-ratio:1/1.25;padding:5px 3px}
+  .cell-num{font-size:12.5px}
+  .cdot{width:7px;height:7px}
+  .legenda-tipos{gap:9px}
+  .card{padding:14px 12px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+"use strict";
+
+/* ---------- constantes ---------- */
+var MESES=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+var DIAS=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+var DIAS_LONGO=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+var TIPOS=[
+  {id:"stories",nome:"Stories",cor:"var(--c-stories)"},
+  {id:"reels",nome:"Reels",cor:"var(--c-reels)"},
+  {id:"carrossel",nome:"Carrossel",cor:"var(--c-carrossel)"},
+  {id:"post",nome:"Post",cor:"var(--c-post)"}
+];
+
+/* ---------- helpers ---------- */
+function pad(n){return String(n).padStart(2,"0");}
+function uid(){return Math.random().toString(36).slice(2,9);}
+function dateKey(y,m,d){return y+"-"+pad(m+1)+"-"+pad(d);}
+function monthKeyOf(y,m){return "mdpj-planner:"+y+"-"+pad(m+1);}
+function emptyDay(){return{stories:[],storiesDone:false,
+  reels:{hook:"",roteiro:"",legenda:"",done:false},
+  carrossel:{titulo:"",slides:[],legenda:"",done:false},
+  post:{ideia:"",legenda:"",done:false}};}
+function temConteudo(dia,t){
+  if(!dia)return false;
+  if(t==="stories")return (dia.stories||[]).some(function(s){return s.text.trim();});
+  if(t==="reels"){var r=dia.reels||{};return !!(r.hook||r.roteiro||r.legenda);}
+  if(t==="carrossel"){var c=dia.carrossel||{};return !!(c.titulo||c.legenda||(c.slides||[]).some(function(s){return s.text.trim();}));}
+  if(t==="post"){var p=dia.post||{};return !!(p.ideia||p.legenda);}
+  return false;
+}
+function estaPronto(dia,t){
+  if(!dia)return false;
+  if(t==="stories")return (dia.stories||[]).length>0 && dia.storiesDone;
+  return !!(dia[t]&&dia[t].done);
+}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+/* ---------- armazenamento (localStorage + fallback) ---------- */
+var mem={};
+var store={
+  get:function(k){try{var v=localStorage.getItem(k);return v;}catch(e){return (k in mem)?mem[k]:null;}},
+  set:function(k,v){mem[k]=v;try{localStorage.setItem(k,v);}catch(e){}}
+};
+
+/* ---------- estado ---------- */
+var hoje=new Date();
+var state={view:"month",cursor:{y:hoje.getFullYear(),m:hoje.getMonth()},selected:null,month:{},dupDate:"",saveStatus:"idle"};
+
+function mKey(){return monthKeyOf(state.cursor.y,state.cursor.m);}
+function loadMonth(){var raw=store.get(mKey());try{state.month=raw?JSON.parse(raw):{};}catch(e){state.month={};}}
+var saveTimer=null;
+function scheduleSave(){
+  setStatus("saving");
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(function(){
+    store.set(mKey(),JSON.stringify(state.month));
+    setStatus("saved");
+    setTimeout(function(){setStatus("idle");updatePill();},1500);
+  },400);
+}
+function setStatus(s){state.saveStatus=s;updatePill();}
+function updatePill(){
+  var el=document.getElementById("savepill");if(!el)return;
+  el.className="save-pill "+state.saveStatus;
+  el.querySelector(".save-txt").textContent=
+    state.saveStatus==="saving"?"Salvando…":state.saveStatus==="saved"?"Salvo":"Salvo automaticamente";
+}
+
+function getDay(key){return state.month[key]||emptyDay();}
+function ensureDay(key){if(!state.month[key])state.month[key]=emptyDay();return state.month[key];}
+
+/* ---------- leitura/escrita de campos ---------- */
+function getField(day,path){
+  if(path.indexOf("story:")===0){var s=(day.stories||[]).find(function(x){return x.id===path.slice(6);});return s?s.text:"";}
+  if(path.indexOf("slide:")===0){var s2=(day.carrossel.slides||[]).find(function(x){return x.id===path.slice(6);});return s2?s2.text:"";}
+  var p=path.split(".");return (day[p[0]]&&day[p[0]][p[1]]!=null)?day[p[0]][p[1]]:"";
+}
+function setField(day,path,val){
+  if(path.indexOf("story:")===0){var s=day.stories.find(function(x){return x.id===path.slice(6);});if(s)s.text=val;return;}
+  if(path.indexOf("slide:")===0){var s2=day.carrossel.slides.find(function(x){return x.id===path.slice(6);});if(s2)s2.text=val;return;}
+  var p=path.split(".");day[p[0]][p[1]]=val;
+}
+
+/* ---------- render ---------- */
+var appEl=document.getElementById("app");
+
+function render(){
+  appEl.innerHTML = topbarHTML() + (state.view==="month"?monthHTML():dayHTML());
+  syncFields();
+  updatePill();
+}
+
+function topbarHTML(){
+  return '<header class="topbar">'
+    +'<div class="brand"><span class="brand-mark">MDPJ</span>'
+    +'<span class="brand-name">Planejador de conteúdo</span></div>'
+    +'<div id="savepill" class="save-pill idle"><span class="save-dot"></span>'
+    +'<span class="save-txt">Salvo automaticamente</span></div></header>';
+}
+
+function monthHTML(){
+  var y=state.cursor.y,m=state.cursor.m;
+  var diasNoMes=new Date(y,m+1,0).getDate();
+  var primeiro=new Date(y,m,1).getDay();
+  var hojeKey=dateKey(hoje.getFullYear(),hoje.getMonth(),hoje.getDate());
+  var comConteudo=0;
+  for(var d=1;d<=diasNoMes;d++){var k=dateKey(y,m,d);if(TIPOS.some(function(t){return temConteudo(state.month[k],t.id);}))comConteudo++;}
+
+  var h='<main class="month"><div class="month-head">'
+    +'<div class="month-title"><h1>'+MESES[m]+'</h1><span class="year">'+y+'</span></div>'
+    +'<div class="month-nav">'
+    +'<button class="nav-btn" data-action="prev" aria-label="Anterior">‹</button>'
+    +'<button class="nav-btn today" data-action="today">Hoje</button>'
+    +'<button class="nav-btn" data-action="next" aria-label="Próximo">›</button>'
+    +'</div></div>';
+
+  h+='<div class="month-stats"><div class="stat"><strong>'+comConteudo+'</strong> de '+diasNoMes+' dias com conteúdo</div>'
+    +'<div class="legenda-tipos">'+TIPOS.map(function(t){
+      return '<span class="legenda-tipo"><span class="dot" style="background:'+t.cor+'"></span> '+t.nome+'</span>';}).join('')
+    +'</div></div>';
+
+  h+='<div class="weekdays">'+DIAS.map(function(d){return '<span>'+d+'</span>';}).join('')+'</div>';
+
+  h+='<div class="grid">';
+  for(var i=0;i<primeiro;i++)h+='<div class="cell empty"></div>';
+  for(var dd=1;dd<=diasNoMes;dd++){
+    var key=dateKey(y,m,dd);var dia=state.month[key];
+    var isToday=key===hojeKey;
+    var completo=TIPOS.every(function(t){return estaPronto(dia,t.id);});
+    var algum=TIPOS.some(function(t){return temConteudo(dia,t.id);});
+    h+='<button class="cell'+(isToday?' today':'')+(completo?' complete':'')+(algum?' has':'')+'" data-action="open" data-key="'+key+'">'
+      +'<span class="cell-num">'+dd+'</span><span class="cell-dots">';
+    h+=TIPOS.map(function(t){
+      var has=temConteudo(dia,t.id),pronto=estaPronto(dia,t.id);
+      var style=has?(' style="background:'+t.cor+';border-color:'+t.cor+';color:'+t.cor+'"'):'';
+      return '<span class="cdot'+(has?' filled':'')+(pronto?' ready':'')+'"'+style+'></span>';
+    }).join('');
+    h+='</span></button>';
+  }
+  h+='</div><p class="hint">Toque em um dia para montar stories, Reels, carrossel e post. Tudo fica salvo neste aparelho.</p>'
+    +'<div class="io-bar"><button class="io-btn" data-action="export">Exportar backup</button>'
+    +'<button class="io-btn" data-action="import">Importar backup</button></div>'
+    +'<input type="file" id="importfile" accept="application/json,.json" style="display:none"></main>';
+  return h;
+}
+
+function toggleHTML(on){
+  return '<button class="toggle'+(on?' on':'')+'" data-action="toggle" data-tipo="'+arguments[1]+'">'
+    +'<span class="toggle-dot"></span>'+(on?'Pronto':'Marcar pronto')+'</button>';
+}
+
+function dayHTML(){
+  var key=state.selected;var dia=getDay(key);
+  var parts=key.split("-").map(Number);
+  var dt=new Date(parts[0],parts[1]-1,parts[2]);
+  var titulo=parts[2]+" de "+MESES[parts[1]-1]+" · "+DIAS_LONGO[dt.getDay()];
+
+  var h='<main class="day"><div class="day-head">'
+    +'<button class="back" data-action="back">‹ Calendário</button>'
+    +'<div class="day-title"><h1>'+titulo+'</h1></div></div>';
+
+  /* STORIES */
+  h+='<section class="card" style="--accent:var(--c-stories)">'
+    +'<div class="card-head"><span class="card-flag"></span><h2>Stories</h2>'
+    +'<span class="card-sub">sequência</span>'
+    +'<button class="toggle'+(dia.storiesDone?' on':'')+'" data-action="toggle" data-tipo="stories"><span class="toggle-dot"></span>'+(dia.storiesDone?'Pronto':'Marcar pronto')+'</button>'
+    +'</div><div class="stories-list">';
+  if((dia.stories||[]).length===0)h+='<p class="vazio">Nenhum story ainda. Adicione o primeiro da sequência.</p>';
+  (dia.stories||[]).forEach(function(s,idx){
+    h+='<div class="story-item"><div class="story-num">'+(idx+1)+'</div>'
+      +'<textarea rows="2" data-field="story:'+s.id+'" placeholder="Story '+(idx+1)+' — o que aparece na tela, texto, enquete, CTA…"></textarea>'
+      +'<div class="story-actions">'
+      +'<button data-action="move-story" data-id="'+s.id+'" data-dir="-1"'+(idx===0?' disabled':'')+'>↑</button>'
+      +'<button data-action="move-story" data-id="'+s.id+'" data-dir="1"'+(idx===dia.stories.length-1?' disabled':'')+'>↓</button>'
+      +'<button class="del" data-action="del-story" data-id="'+s.id+'">✕</button>'
+      +'</div></div>';
+  });
+  h+='</div><button class="add" data-action="add-story">+ Adicionar story</button></section>';
+
+  /* REELS */
+  h+='<section class="card" style="--accent:var(--c-reels)">'
+    +'<div class="card-head"><span class="card-flag"></span><h2>Reels</h2>'
+    +'<button class="toggle'+(dia.reels.done?' on':'')+'" data-action="toggle" data-tipo="reels"><span class="toggle-dot"></span>'+(dia.reels.done?'Pronto':'Marcar pronto')+'</button></div>'
+    +campo("Gancho / ideia","reels.hook","A primeira frase que segura o dentista nos 3 primeiros segundos",2)
+    +campo("Roteiro","reels.roteiro","Cenas, falas, cortes…",5)
+    +campo("Legenda","reels.legenda","Legenda do Reels + CTA + hashtags",4)
+    +'<div class="card-foot"><button class="copy" data-action="copy" data-field="reels.legenda">Copiar legenda</button></div></section>';
+
+  /* CARROSSEL */
+  h+='<section class="card" style="--accent:var(--c-carrossel)">'
+    +'<div class="card-head"><span class="card-flag"></span><h2>Carrossel</h2>'
+    +'<button class="toggle'+(dia.carrossel.done?' on':'')+'" data-action="toggle" data-tipo="carrossel"><span class="toggle-dot"></span>'+(dia.carrossel.done?'Pronto':'Marcar pronto')+'</button></div>'
+    +campo("Título / tema","carrossel.titulo","Sobre o que é o carrossel",1)
+    +'<div class="slides-list">';
+  if((dia.carrossel.slides||[]).length===0)h+='<p class="vazio">Nenhum slide ainda. Adicione o slide de capa.</p>';
+  (dia.carrossel.slides||[]).forEach(function(s,idx){
+    h+='<div class="story-item"><div class="story-num">'+(idx+1)+'</div>'
+      +'<textarea rows="2" data-field="slide:'+s.id+'" placeholder="'+(idx===0?'Slide 1 — capa':'Slide '+(idx+1)+' — texto')+'"></textarea>'
+      +'<div class="story-actions">'
+      +'<button data-action="move-slide" data-id="'+s.id+'" data-dir="-1"'+(idx===0?' disabled':'')+'>↑</button>'
+      +'<button data-action="move-slide" data-id="'+s.id+'" data-dir="1"'+(idx===dia.carrossel.slides.length-1?' disabled':'')+'>↓</button>'
+      +'<button class="del" data-action="del-slide" data-id="'+s.id+'">✕</button>'
+      +'</div></div>';
+  });
+  h+='</div><button class="add" data-action="add-slide">+ Adicionar slide</button>'
+    +campo("Legenda","carrossel.legenda","Legenda do carrossel + CTA + hashtags",4)
+    +'<div class="card-foot"><button class="copy" data-action="copy" data-field="carrossel.legenda">Copiar legenda</button></div></section>';
+
+  /* POST */
+  h+='<section class="card" style="--accent:var(--c-post)">'
+    +'<div class="card-head"><span class="card-flag"></span><h2>Post</h2>'
+    +'<span class="card-sub">imagem única</span>'
+    +'<button class="toggle'+(dia.post.done?' on':'')+'" data-action="toggle" data-tipo="post"><span class="toggle-dot"></span>'+(dia.post.done?'Pronto':'Marcar pronto')+'</button></div>'
+    +campo("Ideia / arte","post.ideia","O que aparece na imagem",2)
+    +campo("Legenda","post.legenda","Legenda do post + CTA + hashtags",4)
+    +'<div class="card-foot"><button class="copy" data-action="copy" data-field="post.legenda">Copiar legenda</button></div></section>';
+
+  /* FERRAMENTAS */
+  h+='<section class="day-tools"><div class="tool"><label class="campo-label">Copiar este dia para outra data</label>'
+    +'<div class="tool-row"><input type="date" id="dupdate"><button class="add" data-action="dup">Copiar</button></div></div>'
+    +'<button class="limpar" data-action="clear">Apagar conteúdo do dia</button></section></main>';
+  return h;
+}
+
+function campo(label,field,ph,rows){
+  return '<label class="campo"><span class="campo-label">'+label+'</span>'
+    +'<textarea rows="'+rows+'" data-field="'+field+'" placeholder="'+esc(ph)+'"></textarea></label>';
+}
+
+/* preenche os valores dos campos a partir do modelo (sem quebrar foco) */
+function syncFields(){
+  if(state.view!=="day")return;
+  var dia=getDay(state.selected);
+  var nodes=appEl.querySelectorAll("[data-field]");
+  nodes.forEach(function(el){el.value=getField(dia,el.getAttribute("data-field"));});
+  var dup=document.getElementById("dupdate");if(dup)dup.value=state.dupDate||"";
+}
+
+/* ---------- eventos (delegação) ---------- */
+appEl.addEventListener("input",function(e){
+  var el=e.target;
+  if(el.id==="dupdate"){state.dupDate=el.value;return;}
+  var f=el.getAttribute&&el.getAttribute("data-field");
+  if(!f)return;
+  var dia=ensureDay(state.selected);
+  setField(dia,f,el.value);
+  scheduleSave();
+});
+
+appEl.addEventListener("change",function(e){
+  if(e.target && e.target.id==="importfile"){
+    var f=e.target.files&&e.target.files[0];
+    if(f)importData(f);
+    e.target.value="";
+  }
+});
+
+appEl.addEventListener("click",function(e){
+  var btn=e.target.closest("[data-action]");if(!btn)return;
+  var a=btn.getAttribute("data-action");
+  var dia;
+
+  if(a==="prev"){shiftMonth(-1);return;}
+  if(a==="next"){shiftMonth(1);return;}
+  if(a==="today"){state.cursor={y:hoje.getFullYear(),m:hoje.getMonth()};loadMonth();render();return;}
+  if(a==="open"){state.selected=btn.getAttribute("data-key");state.dupDate="";state.view="day";render();return;}
+  if(a==="back"){state.view="month";render();return;}
+  if(a==="export"){exportData();return;}
+  if(a==="import"){var fi=document.getElementById("importfile");if(fi)fi.click();return;}
+
+  if(a==="toggle"){
+    dia=ensureDay(state.selected);var t=btn.getAttribute("data-tipo");
+    if(t==="stories")dia.storiesDone=!dia.storiesDone;else dia[t].done=!dia[t].done;
+    render();scheduleSave();return;
+  }
+  if(a==="add-story"){dia=ensureDay(state.selected);dia.stories.push({id:uid(),text:""});render();scheduleSave();focusLast(".stories-list textarea");return;}
+  if(a==="del-story"){dia=ensureDay(state.selected);dia.stories=dia.stories.filter(function(s){return s.id!==btn.getAttribute("data-id");});render();scheduleSave();return;}
+  if(a==="move-story"){dia=ensureDay(state.selected);moveIn(dia.stories,btn.getAttribute("data-id"),parseInt(btn.getAttribute("data-dir"),10));render();scheduleSave();return;}
+  if(a==="add-slide"){dia=ensureDay(state.selected);dia.carrossel.slides.push({id:uid(),text:""});render();scheduleSave();focusLast(".slides-list textarea");return;}
+  if(a==="del-slide"){dia=ensureDay(state.selected);dia.carrossel.slides=dia.carrossel.slides.filter(function(s){return s.id!==btn.getAttribute("data-id");});render();scheduleSave();return;}
+  if(a==="move-slide"){dia=ensureDay(state.selected);moveIn(dia.carrossel.slides,btn.getAttribute("data-id"),parseInt(btn.getAttribute("data-dir"),10));render();scheduleSave();return;}
+
+  if(a==="copy"){
+    var val=getField(getDay(state.selected),btn.getAttribute("data-field"));
+    if(!val||!val.trim())return;
+    copyText(val);var old=btn.textContent;btn.textContent="Copiado!";
+    setTimeout(function(){btn.textContent=old;},1400);return;
+  }
+  if(a==="dup"){dupDay();return;}
+  if(a==="clear"){
+    if(!confirm("Apagar todo o conteúdo deste dia?"))return;
+    delete state.month[state.selected];render();scheduleSave();return;
+  }
+});
+
+function shiftMonth(delta){
+  var m=state.cursor.m+delta,y=state.cursor.y;
+  if(m<0){m=11;y--;}if(m>11){m=0;y++;}
+  state.cursor={y:y,m:m};loadMonth();render();
+}
+function moveIn(arr,id,dir){
+  var i=arr.findIndex(function(s){return s.id===id;});var j=i+dir;
+  if(j<0||j>=arr.length)return;var tmp=arr[i];arr[i]=arr[j];arr[j]=tmp;
+}
+function focusLast(sel){var list=appEl.querySelectorAll(sel);if(list.length)list[list.length-1].focus();}
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).catch(function(){fallbackCopy(t);});}
+  else fallbackCopy(t);
+}
+function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
+
+function dupDay(){
+  if(!state.dupDate)return;
+  var origem=getDay(state.selected);
+  var copia=JSON.parse(JSON.stringify(origem));
+  copia.stories=(copia.stories||[]).map(function(s){return{id:uid(),text:s.text};});
+  if(copia.carrossel&&copia.carrossel.slides)copia.carrossel.slides=copia.carrossel.slides.map(function(s){return{id:uid(),text:s.text};});
+  var p=state.dupDate.split("-").map(Number);
+  var alvoKey=monthKeyOf(p[0],p[1]-1);
+  if(alvoKey===mKey()){state.month[state.dupDate]=copia;scheduleSave();}
+  else{
+    var raw=store.get(alvoKey);var obj={};try{obj=raw?JSON.parse(raw):{};}catch(e){}
+    obj[state.dupDate]=copia;store.set(alvoKey,JSON.stringify(obj));
+  }
+  var br=state.dupDate.split("-").reverse().join("/");
+  state.dupDate="";render();
+  alert("Conteúdo copiado para "+br);
+}
+
+/* ---------- exportar / importar ---------- */
+function allPlannerKeys(){
+  var keys=[];
+  try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf("mdpj-planner:")===0)keys.push(k);}}catch(e){}
+  Object.keys(mem).forEach(function(k){if(k.indexOf("mdpj-planner:")===0&&keys.indexOf(k)<0)keys.push(k);});
+  return keys;
+}
+function exportData(){
+  var keys=allPlannerKeys();var data={};
+  keys.forEach(function(k){var raw=store.get(k);try{data[k]=JSON.parse(raw);}catch(e){}});
+  if(Object.keys(data).length===0){alert("Ainda não há conteúdo para exportar.");return;}
+  var payload={app:"mdpj-planner",version:1,exportedAt:new Date().toISOString(),data:data};
+  var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="planejador-mdpj-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},1000);
+}
+function importData(file){
+  var reader=new FileReader();
+  reader.onload=function(){
+    var obj;
+    try{obj=JSON.parse(reader.result);}catch(e){alert("Arquivo inválido — não consegui ler o backup.");return;}
+    var data=(obj&&obj.data)?obj.data:obj;
+    if(!data||typeof data!=="object"){alert("Este arquivo não parece um backup do planejador.");return;}
+    var monthKeys=Object.keys(data).filter(function(k){return k.indexOf("mdpj-planner:")===0;});
+    if(monthKeys.length===0){alert("Nenhum conteúdo de planejador encontrado no arquivo.");return;}
+    if(!confirm("Importar "+monthKeys.length+" mês(es) do backup?\n\nIsso substitui o conteúdo desses meses neste aparelho."))return;
+    monthKeys.forEach(function(k){store.set(k,JSON.stringify(data[k]));});
+    loadMonth();render();
+    alert("Backup importado com sucesso! "+monthKeys.length+" mês(es) atualizados.");
+  };
+  reader.readAsText(file);
+}
+
+/* ---------- start ---------- */
+loadMonth();
+render();
+</script>
+</body>
+</html>
