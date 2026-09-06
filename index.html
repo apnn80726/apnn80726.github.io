@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lista de espera — Perícia Odontológica Cível</title>
+<meta name="description" content="Lista de interessados, sem compromisso, na formação em perícia odontológica cível." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --teal: #0E3A3F;
+    --teal-deep: #0A2C30;
+    --brass: #B4884A;
+    --brass-light: #CBA45E;
+    --paper: #F3EEE4;
+    --ink: #17211F;
+    --ink-soft: #4A5A56;
+    --line: #D9CFBE;
+    --error: #9A3B2E;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 0 20px 64px; }
+
+  /* Hero */
+  .hero {
+    background: var(--teal);
+    color: var(--paper);
+    padding: 44px 24px 40px;
+    border-bottom: 2px solid var(--brass);
+  }
+  .hero-inner { max-width: 560px; margin: 0 auto; }
+  .crest { width: 46px; height: 46px; margin-bottom: 22px; }
+  .crest path { stroke: var(--brass-light); }
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: 0.14em;
+    color: var(--brass-light); margin: 0 0 14px;
+  }
+  h1 {
+    font-family: 'Spectral', serif; font-weight: 500;
+    font-size: 30px; line-height: 1.18; margin: 0 0 16px;
+    letter-spacing: -0.01em;
+  }
+  .lede { font-size: 17px; line-height: 1.5; color: #E7DFD0; margin: 0; max-width: 42ch; }
+
+  /* No-commitment banner */
+  .nocom {
+    background: #EBE3D3;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brass);
+    border-radius: 2px;
+    padding: 16px 18px;
+    margin: 28px 0 8px;
+    font-size: 15.5px; line-height: 1.5; color: var(--ink-soft);
+  }
+  .nocom strong { color: var(--ink); font-weight: 600; }
+
+  /* Form */
+  form { margin-top: 8px; }
+  fieldset { border: 0; padding: 0; margin: 30px 0 0; }
+  .qnum {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; color: var(--brass);
+    display: block; margin-bottom: 6px;
+  }
+  legend, .label {
+    font-family: 'Spectral', serif; font-weight: 600;
+    font-size: 19px; line-height: 1.3; color: var(--ink);
+    padding: 0; margin: 0 0 14px;
+  }
+  .label { display: block; }
+  .hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px; color: var(--ink-soft);
+    font-weight: 400; letter-spacing: 0.02em; margin-left: 6px;
+  }
+
+  input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+    width: 100%;
+    font-family: 'Spectral', serif; font-size: 17px; color: var(--ink);
+    background: #FBF8F1; border: 1px solid var(--line);
+    border-radius: 3px; padding: 13px 14px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
+  select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B4884A' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; padding-right: 38px; }
+  input:focus, textarea:focus, select:focus {
+    outline: none; border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(180,136,74,0.18);
+  }
+  .field { margin-bottom: 20px; }
+
+  /* Option rows */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .options.inline { flex-direction: row; }
+  .options.inline .opt { flex: 1; }
+  .opt {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: #FBF8F1; border: 1px solid var(--line);
+    border-radius: 3px; padding: 13px 15px; cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .opt:hover { border-color: var(--brass-light); }
+  .opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .mark {
+    flex: 0 0 auto; width: 18px; height: 18px; margin-top: 3px;
+    border: 1.5px solid #B9AD97; border-radius: 50%;
+    position: relative; transition: border-color .15s ease;
+  }
+  .opt--check .mark { border-radius: 4px; }
+  .mark::after {
+    content: ""; position: absolute; inset: 3px; border-radius: 50%;
+    background: var(--brass); transform: scale(0); transition: transform .15s ease;
+  }
+  .opt--check .mark::after { border-radius: 1px; }
+  .opt-text { font-size: 16px; line-height: 1.4; }
+  .opt input:checked ~ .mark { border-color: var(--brass); }
+  .opt input:checked ~ .mark::after { transform: scale(1); }
+  .opt:has(input:checked) { border-color: var(--brass); background: #F6EFE0; }
+  .opt input:focus-visible ~ .mark { box-shadow: 0 0 0 3px rgba(180,136,74,0.25); }
+
+  .reveal-field { margin-top: 10px; display: none; }
+  .reveal-field.show { display: block; }
+
+  /* Errors */
+  .err {
+    color: var(--error); font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px; margin-top: 7px; display: none;
+  }
+  .err.show { display: block; }
+  .field.invalid input, .field.invalid textarea, .field.invalid select,
+  fieldset.invalid .opt { border-color: var(--error); }
+
+  /* Submit */
+  .submit-block { margin-top: 34px; }
+  button.cta {
+    width: 100%; font-family: 'Spectral', serif; font-weight: 600;
+    font-size: 18px; color: var(--paper); background: var(--teal);
+    border: 0; border-radius: 3px; padding: 17px 20px; cursor: pointer;
+    transition: background .15s ease;
+  }
+  button.cta:hover { background: var(--teal-deep); }
+  button.cta:disabled { opacity: .6; cursor: default; }
+  .fineprint {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+    color: var(--ink-soft); text-align: center; margin-top: 14px; line-height: 1.5;
+  }
+
+  /* Thank-you */
+  .thanks { display: none; padding: 40px 4px; text-align: center; }
+  .thanks.show { display: block; }
+  .thanks .crest2 { width: 52px; height: 52px; margin: 0 auto 20px; }
+  .thanks .crest2 path { stroke: var(--brass); }
+  .thanks h2 { font-family: 'Spectral', serif; font-weight: 500; font-size: 26px; margin: 0 0 12px; }
+  .thanks p { color: var(--ink-soft); font-size: 16.5px; max-width: 40ch; margin: 0 auto; }
+
+  @media (max-width: 380px) {
+    h1 { font-size: 26px; }
+    body { font-size: 16px; }
+    .options.inline { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <svg class="crest" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path d="M24 6c-3.5 0-5 2.2-8 2.2S12 7 9.5 8.4C7.5 9.6 7 12 7.6 16c.5 3.4 1.4 6 2.5 10 .9 3.3 1.6 8 3.4 8 1.9 0 1.7-6 3.2-9.3.7-1.6 1.6-2.4 3.3-2.4s2.6.8 3.3 2.4C26.8 28 26.6 34 28.5 34c1.8 0 2.5-4.7 3.4-8 1.1-4 2-6.6 2.5-10 .6-4 .1-6.4-1.9-7.6C29.9 7 28.5 8.2 25 8.2c-.4 0-.7 0-1-.05" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p class="kicker">Lista de espera</p>
+    <h1>Formação em perícia odontológica cível</h1>
+    <p class="lede">Entre para a lista de interessados e seja avisado(a) em primeira mão quando as inscrições abrirem.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="nocom" id="topnote">
+    Esta é uma <strong>lista de interessados, sem compromisso.</strong> Você não está se inscrevendo nem se comprometendo com nada — só quer ser avisado(a) primeiro. Sem custo e sem obrigação de compra.
+  </div>
+
+  <form id="waitform" novalidate>
+
+    <!-- Contato -->
+    <div class="field" style="margin-top:30px">
+      <label class="label" for="nome">Seu nome</label>
+      <input type="text" id="nome" name="nome" autocomplete="name" />
+      <span class="err" id="err-nome">Preencha seu nome para continuar.</span>
+    </div>
+
+    <div class="field">
+      <label class="label" for="email">Seu melhor e-mail</label>
+      <input type="email" id="email" name="email" autocomplete="email" inputmode="email" />
+      <span class="err" id="err-email">Digite um e-mail válido — é por onde você será avisado(a).</span>
+    </div>
+
+    <div class="field">
+      <label class="label" for="telefone">Seu WhatsApp <span class="hint">com DDD</span></label>
+      <input type="tel" id="telefone" name="telefone" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000" />
+      <span class="err" id="err-telefone">Informe um telefone com DDD.</span>
+    </div>
+
+    <!-- 01 Onde conheceu -->
+    <div class="field" style="margin-top:30px">
+      <span class="qnum">01</span>
+      <label class="label" for="onde">Onde você conheceu a Ana Paula Niquerito?</label>
+      <input type="text" id="onde" name="onde" placeholder="Instagram, TikTok, YouTube, indicação de alguém…" />
+      <span class="err" id="err-onde">Conta pra mim onde você me encontrou.</span>
+    </div>
+
+    <!-- 02 Já fez curso -->
+    <fieldset id="q-curso">
+      <span class="qnum">02</span>
+      <legend>Já fez algum curso de perícia judicial?</legend>
+      <div class="options inline" data-name="curso">
+        <label class="opt"><input type="radio" name="curso" value="Sim" data-reveal="curso-qual" /><span class="mark"></span><span class="opt-text">Sim</span></label>
+        <label class="opt"><input type="radio" name="curso" value="Não" /><span class="mark"></span><span class="opt-text">Não</span></label>
+      </div>
+      <div class="reveal-field" id="curso-qual">
+        <input type="text" name="curso_qual" placeholder="Qual curso? (opcional)" />
+      </div>
+      <span class="err" id="err-curso">Escolha uma opção.</span>
+    </fieldset>
+
+    <!-- 03 Incomoda (discursiva) -->
+    <fieldset id="q-incomoda">
+      <span class="qnum">03</span>
+      <legend>O que mais te incomoda na odontologia hoje?</legend>
+      <textarea id="incomoda" name="incomoda" placeholder="Pode escrever com suas palavras — uma frase sincera já ajuda."></textarea>
+      <span class="err" id="err-incomoda">Escreva um pouco sobre isso.</span>
+    </fieldset>
+
+    <!-- 04 Desejo (discursiva) -->
+    <fieldset id="q-desejo">
+      <span class="qnum">04</span>
+      <legend>Qual é o seu maior desejo profissional agora?</legend>
+      <textarea id="desejo" name="desejo" placeholder="O que você mais gostaria de mudar ou conquistar na sua carreira."></textarea>
+      <span class="err" id="err-desejo">Escreva um pouco sobre isso.</span>
+    </fieldset>
+
+    <!-- 05 Impede (discursiva) -->
+    <fieldset id="q-impede">
+      <span class="qnum">05</span>
+      <legend>O que mais te impede de atuar na perícia hoje?</legend>
+      <textarea id="impede" name="impede" placeholder="O que te trava ou te deixa em dúvida quando pensa em atuar."></textarea>
+      <span class="err" id="err-impede">Escreva um pouco sobre isso.</span>
+    </fieldset>
+
+    <!-- 06 O que pretende (discursiva) -->
+    <fieldset id="q-pretende">
+      <span class="qnum">06</span>
+      <legend>O que você pretende com a perícia odontológica?</legend>
+      <textarea id="pretende" name="pretende" placeholder="Escreva com suas palavras o que você espera alcançar."></textarea>
+      <span class="err" id="err-pretende">Escreva um pouco sobre isso.</span>
+    </fieldset>
+
+    <!-- 07 Renda -->
+    <fieldset id="q-renda">
+      <span class="qnum">07</span>
+      <legend>Qual a média da sua renda mensal hoje?</legend>
+      <select id="renda" name="renda">
+        <option value="" disabled selected>Selecione uma faixa</option>
+        <option value="Até R$ 5 mil">Até R$ 5 mil</option>
+        <option value="De R$ 5 mil a R$ 10 mil">De R$ 5 mil a R$ 10 mil</option>
+        <option value="De R$ 10 mil a R$ 20 mil">De R$ 10 mil a R$ 20 mil</option>
+        <option value="De R$ 20 mil a R$ 30 mil">De R$ 20 mil a R$ 30 mil</option>
+        <option value="Acima de R$ 30 mil">Acima de R$ 30 mil</option>
+        <option value="Prefiro não informar">Prefiro não informar</option>
+      </select>
+      <span class="err" id="err-renda">Selecione uma faixa.</span>
+    </fieldset>
+
+    <!-- 08 Pergunta aberta -->
+    <fieldset id="q-pergunta">
+      <span class="qnum">08</span>
+      <legend>O que você gostaria de me perguntar sobre a perícia odontológica? <span class="hint">opcional</span></legend>
+      <textarea id="pergunta" name="pergunta" placeholder="Sua dúvida sincera — pode ser qualquer coisa."></textarea>
+    </fieldset>
+
+    <div class="submit-block">
+      <div class="nocom" style="margin-top:0">
+        Ao entrar, você fica na <strong>lista de interessados, sem compromisso.</strong> É só para eu te avisar em primeira mão quando as inscrições abrirem.
+      </div>
+      <button type="submit" class="cta" id="submitBtn" style="margin-top:18px">Entrar na lista de espera</button>
+      <p class="fineprint">Seus dados são usados só para esse aviso. Nada de spam.</p>
+    </div>
+
+  </form>
+
+  <section class="thanks" id="thanks" aria-live="polite">
+    <svg class="crest2" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <path d="M14 25l7 7 14-15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h2>Pronto, você está na lista.</h2>
+    <p>Quando as inscrições da formação em perícia odontológica cível abrirem, você será um(a) dos(as) primeiros(as) a saber. Até lá, fica tranquilo(a): sem compromisso nenhum.</p>
+  </section>
+
+</main>
+
+<script>
+  /* =========================================================
+     1) COLE AQUI O LINK DO SEU APP DA WEB (Google Apps Script)
+        Enquanto estiver "COLE_SEU_LINK_AQUI", o formulário só
+        mostra o agradecimento (modo de teste) e NÃO salva nada.
+     ========================================================= */
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbx-qEYPRFDh-s0XaLMvFvn6AXa_A32ks668UXWLAja_rAvPD-Ea35bGt284xXcKq8B9KA/exec";
+
+  const form = document.getElementById('waitform');
+  const thanks = document.getElementById('thanks');
+  const btn = document.getElementById('submitBtn');
+
+  // Campos condicionais (Sim -> "qual?", Outro -> texto)
+  document.querySelectorAll('.options').forEach(group => {
+    group.addEventListener('change', () => {
+      group.querySelectorAll('input[data-reveal]').forEach(inp => {
+        const box = document.getElementById(inp.getAttribute('data-reveal'));
+        if (!box) return;
+        const on = inp.checked;
+        box.classList.toggle('show', on);
+        if (on) box.querySelector('input').focus();
+      });
+    });
+  });
+
+  // WhatsApp: máscara simples
+  const tel = document.getElementById('telefone');
+  tel.addEventListener('input', () => {
+    let v = tel.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 6) tel.value = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+    else if (v.length > 2) tel.value = `(${v.slice(0,2)}) ${v.slice(2)}`;
+    else tel.value = v;
+  });
+
+  function setInvalid(errId, containerId, on) {
+    const el = document.getElementById(errId);
+    if (el) el.classList.toggle('show', on);
+    const c = document.getElementById(containerId);
+    if (c) c.classList.toggle('invalid', on);
+  }
+
+  function validate() {
+    let ok = true;
+    const val = id => document.getElementById(id).value.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email'));
+    const telv = document.getElementById('telefone').value.replace(/\D/g,'');
+
+    setInvalid('err-nome','nome', !val('nome')); if (!val('nome')) ok = false;
+    setInvalid('err-email','email', !emailOk); if (!emailOk) ok = false;
+    setInvalid('err-telefone','telefone', telv.length < 10); if (telv.length < 10) ok = false;
+    setInvalid('err-onde','onde', !val('onde')); if (!val('onde')) ok = false;
+    setInvalid('err-incomoda','q-incomoda', !val('incomoda')); if (!val('incomoda')) ok = false;
+    setInvalid('err-desejo','q-desejo', !val('desejo')); if (!val('desejo')) ok = false;
+    setInvalid('err-impede','q-impede', !val('impede')); if (!val('impede')) ok = false;
+
+    // radio obrigatório (curso)
+    const cursoChecked = form.querySelector('input[name="curso"]:checked');
+    setInvalid('err-curso','q-curso', !cursoChecked); if (!cursoChecked) ok = false;
+
+    // discursiva (pretende)
+    setInvalid('err-pretende','q-pretende', !val('pretende')); if (!val('pretende')) ok = false;
+
+    // renda
+    setInvalid('err-renda','q-renda', !val('renda')); if (!val('renda')) ok = false;
+
+    return ok;
+  }
+
+  function checkboxValue(name) {
+    const boxes = [...form.querySelectorAll(`input[name="${name}"]:checked`)];
+    return boxes.map(b => {
+      if (b.value === '__outro__') {
+        const extra = form.querySelector(`input[name="${name}_outro"]`).value.trim();
+        return extra ? `Outro: ${extra}` : 'Outro';
+      }
+      return b.value;
+    }).join('; ');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validate()) {
+      const firstErr = form.querySelector('.err.show, .invalid');
+      if (firstErr) firstErr.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+
+    const cursoChecked = form.querySelector('input[name="curso"]:checked');
+    const payload = {
+      nome: document.getElementById('nome').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      telefone: document.getElementById('telefone').value.trim(),
+      onde: document.getElementById('onde').value.trim(),
+      curso: (cursoChecked||{}).value || '',
+      curso_qual: document.querySelector('input[name="curso_qual"]').value.trim(),
+      incomoda: document.getElementById('incomoda').value.trim(),
+      desejo: document.getElementById('desejo').value.trim(),
+      impede: document.getElementById('impede').value.trim(),
+      pretende: document.getElementById('pretende').value.trim(),
+      renda: document.getElementById('renda').value,
+      pergunta: document.getElementById('pergunta').value.trim(),
+      origem: new URLSearchParams(window.location.search).get('utm_source') || document.referrer || '',
+      data: new Date().toISOString()
+    };
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+
+    try {
+      if (ENDPOINT && ENDPOINT !== 'COLE_SEU_LINK_AQUI') {
+        await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      }
+      form.style.display = 'none';
+      document.getElementById('topnote').style.display = 'none';
+      thanks.classList.add('show');
+      thanks.scrollIntoView({behavior:'smooth', block:'start'});
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Entrar na lista de espera';
+      alert('Não consegui enviar agora. Confira sua conexão e tente de novo.');
+    }
+  });
+</script>
+</body>
+</html>
